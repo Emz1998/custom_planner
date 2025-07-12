@@ -1,0 +1,270 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+@import 'tailwindcss';
+/* ----------------------------Theme---------------------------- */
+
+@theme {
+  /* Colors */
+  --color-primary: #000;
+  --color-secondary: #fff;
+  --color-tertiary: #f00;
+
+  /* Fonts */
+  --font-lato: 'Lato', sans-serif;
+  --font-inter: 'Inter', sans-serif;
+
+  /* Border Color */
+  --border-color: #000;
+
+  /* Border Widths */
+  --border-primary: 1px solid var(--border-color);
+  --border-secondary: 1.5px solid var(--border-color);
+  --border-tertiary: 2px solid var(--border-color);
+
+  /* Header Sizes */
+  --text-tiny: 5.5px;
+  --text-xs: 6px;
+  --text-sm: 8px;
+  --text-base: 10px;
+  --text-md: 12px;
+  --text-lg: 14px;
+  --text-xl: 16px;
+
+  /* Font Weight */
+  --font-weight-thin: 400;
+  --font-weight-normal: 500;
+  --font-weight-medium: 600;
+  --font-weight-semibold: 700;
+  --font-weight-bold: 800;
+  --font-weight-black: 900;
+
+  /* Letter Spacing */
+  --tracking-primary: 0.25px;
+  --tracking-secondary: 0.2px;
+  --tracking-tertiary: 0.15px;
+
+  /* Spacing */
+  --spacing-primary: 10px;
+  --spacing-secondary: 20px;
+  --spacing-tertiary: 30px;
+}
+
+/* ----------------------------Custom Variant---------------------------- */
+
+@custom-variant monthly (&.notes);
+@custom-variant lowercase (&.subheading);
+
+@custom-variant paragraph (.paragraph &);
+
+/* ----------------------------Utility Classes---------------------------- */
+
+/* Border Utilities */
+
+@utility border-l-* {
+  border-left: --value(--border- *);
+}
+
+@utility border-r-* {
+  border-right: --value(--border- *);
+}
+
+@utility border-t-* {
+  border-top: --value(--border- *);
+}
+
+@utility border-b-* {
+  border-bottom: --value(--border- *);
+}
+
+@utility border-* {
+  border: --value(--border- *);
+}
+
+@utility text-heading {
+  @apply text-xl font-black uppercase tracking-primary text-center;
+}
+
+@utility text-heading-* {
+  font-size: --value(--text- *);
+  @apply font-black uppercase tracking-primary text-center;
+  * {
+    @apply font-thin;
+  }
+}
+
+@utility text-subheading {
+  @apply text-md font-medium uppercase tracking-primary text-center;
+}
+
+@utility text-subheading-* {
+  font-size: --value(--text- *);
+  @apply font-medium uppercase tracking-primary text-center;
+}
+
+@utility text-paragraph-* {
+  @apply text-(--text-*) font-normal uppercase tracking-primary;
+}
+
+/* ----------------------------Base Styles---------------------------- */
+@layer base {
+  body {
+    @apply font-inter;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply text-xl font-black;
+  }
+
+  li,
+  button,
+  a,
+  input,
+  textarea {
+    @apply text-base font-normal;
+  }
+
+  p {
+    @apply text-sm font-normal;
+  }
+
+  button {
+    @apply text-base text-primary;
+  }
+
+  span {
+    @apply font-normal;
+  }
+}
+
+/* ----------------------------Components---------------------------- */
+
+@layer components {
+  /* Calendar */
+  .calendar {
+    @apply grid grid-rows-[auto_1fr_1fr_1fr_1fr_1fr] grid-cols-4 border-l-primary w-full h-full;
+    .header {
+      @apply text-sm text-center font-normal uppercase border-y-primary border-r-primary border-black text-white bg-black  px-2 py-2 h-[27px];
+    }
+    .header > * {
+      @apply font-bold;
+    }
+    .days {
+      @apply text-end text-[9px] p-2 border-r-primary border-b-primary border-black font-normal;
+    }
+    .sidenotes span {
+      @apply font-normal;
+    }
+  }
+  /* Page */
+  .page {
+    @apply w-full h-full;
+
+    .layout {
+      @apply flex flex-col h-full w-full gap-3;
+    }
+    .calendar-container {
+      @apply w-full;
+    }
+  }
+
+  /* Notes */
+  .notes.monthly {
+    @apply w-full border-primary flex h-full;
+    .content {
+      @apply w-[40%];
+      .header {
+        @apply text-heading-base bg-black text-white p-2 px-3 text-center;
+        span {
+          @apply font-normal;
+        }
+      }
+      .subheader {
+        @apply text-subheading-xs px-1 py-2 italic opacity-70 text-center font-thin;
+      }
+    }
+    .empty-space {
+      @apply flex-1;
+    }
+  }
+
+  /* Dialog */
+  .dialog {
+    @apply fixed inset-0 flex items-center justify-center transition-opacity duration-300;
+    .dialog-content {
+      @apply bg-white p-4 transition-opacity duration-300;
+    }
+    .dialog-overlay {
+      @apply absolute inset-0 bg-black opacity-50 z-[-9999] transition-opacity duration-300;
+    }
+    .dialog-trigger {
+      @apply px-4 py-2 bg-black text-white;
+    }
+  }
+
+  /* Underline */
+  .underline {
+    @apply border-b-primary border-black mt-2;
+  }
+}
+
+/* ----------------------------Print Optimizations---------------------------- */
+
+@page {
+  size: A5;
+  margin: 5mm;
+  bleed: 1mm;
+}
+
+@page :left {
+  margin-right: 10mm;
+}
+
+@page :right {
+  margin-left: 10mm;
+}
+.page-left {
+  break-after: page;
+}
+
+.page-right {
+  break-after: page;
+}
+
+.pagedjs_pages {
+  display: inline-grid;
+  grid-template-columns: auto auto;
+  row-gap: 1rem;
+}
+
+.pagedjs_page {
+  border: 1px solid black;
+}
+
+.monthly {
+  /* border: 1px solid blue; */
+}
+
+:where(.pagedjs_pagebox) > :not(:last-child) {
+  /* @apply bg-neutral-400; */
+}
+
+.pagedjs_left_page {
+  grid-column: 1;
+}
+
+.pagedjs_right_page {
+  grid-column: 2;
+}
+
+body {
+  @apply flex justify-center items-center border;
+}
+
+[data-id='root'] {
+  @apply h-full;
+}
