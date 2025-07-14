@@ -79,7 +79,6 @@
 @utility border-* {
   border: --value(--border- *);
 }
-
 @utility text-heading {
   @apply text-xl font-black uppercase tracking-primary text-center;
 }
@@ -148,7 +147,7 @@
   .calendar {
     @apply grid grid-rows-[auto_1fr_1fr_1fr_1fr_1fr] grid-cols-4 border-l-primary w-full h-full;
     .header {
-      @apply text-sm text-center font-normal uppercase border-y-primary border-r-primary border-black text-white bg-black  px-2 py-2 h-[27px];
+      @apply text-heading-sm text-center font-normal uppercase border-y-primary border-r-primary border-black text-white bg-black  px-2 py-2 h-[27px];
     }
     .header > * {
       @apply font-bold;
@@ -178,13 +177,13 @@
     .content {
       @apply w-[40%];
       .header {
-        @apply text-heading-base bg-black text-white p-2 px-3 text-center;
+        @apply text-heading-sm bg-black text-white p-2 px-3 text-center;
         span {
           @apply font-normal;
         }
       }
       .subheader {
-        @apply text-subheading-xs px-1 py-2 italic opacity-70 text-center font-thin;
+        @apply text-subheading-sm px-1 py-2 italic opacity-70 text-center font-thin;
       }
     }
     .empty-space {
@@ -213,58 +212,55 @@
 }
 
 /* ----------------------------Print Optimizations---------------------------- */
+@layer components {
+  @page {
+    size: A5;
+    margin: 5mm;
+    bleed: 1mm;
+  }
 
-@page {
-  size: A5;
-  margin: 5mm;
-  bleed: 1mm;
-}
+  @page :left {
+    margin-right: 10mm;
+  }
 
-@page :left {
-  margin-right: 10mm;
-}
+  @page :right {
+    margin-left: 10mm;
+  }
+  .page-left {
+    break-after: page;
+  }
 
-@page :right {
-  margin-left: 10mm;
-}
-.page-left {
-  break-after: page;
-}
+  .page-right {
+    break-after: page;
+  }
 
-.page-right {
-  break-after: page;
-}
+  .pagedjs_pages {
+    display: inline-grid;
+    grid-template-columns: auto auto;
+    row-gap: 1rem;
+  }
 
-.pagedjs_pages {
-  display: inline-grid;
-  grid-template-columns: auto auto;
-  row-gap: 1rem;
-}
+  .pagedjs_page {
+    border: 1px solid black;
+  }
 
-.pagedjs_page {
-  border: 1px solid black;
-}
+  /* :where(.pagedjs_pagebox) > :not(:last-child) {
+    @apply bg-neutral-400;
+  } */
 
-.monthly {
-  /* border: 1px solid blue; */
-}
+  .pagedjs_left_page {
+    grid-column: 1;
+  }
 
-:where(.pagedjs_pagebox) > :not(:last-child) {
-  /* @apply bg-neutral-400; */
-}
+  .pagedjs_right_page {
+    grid-column: 2;
+  }
 
-.pagedjs_left_page {
-  grid-column: 1;
-}
+  body {
+    @apply flex justify-center items-center border;
+  }
 
-.pagedjs_right_page {
-  grid-column: 2;
-}
-
-body {
-  @apply flex justify-center items-center border;
-}
-
-[data-id='root'] {
-  @apply h-full;
+  [data-id='root'] {
+    @apply h-full;
+  }
 }

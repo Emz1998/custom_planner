@@ -13,10 +13,11 @@ const Calendar = ({
   spreadPosition = 'left',
 }) => {
   console.log('Calendar component loaded');
-  const weekdays = useMemo(
-    () => getWeekdaysForCalendar(startingWeekday, spreadPosition),
-    [startingWeekday, spreadPosition]
-  );
+  const weekdays = useMemo(() => {
+    const result = getWeekdaysForCalendar(startingWeekday, spreadPosition);
+    console.log('Weekdays result:', result);
+    return result || [];
+  }, [startingWeekday, spreadPosition]);
 
   const calendarDays = useMemo(
     () => calculateCalendarDays(month, year, startingWeekday, spreadPosition),
@@ -27,16 +28,16 @@ const Calendar = ({
     // Calendar Grid
     <div className="calendar">
       {/* Weekday Headers */}
-      {weekdays.map((day) => (
-        <div key={day} className="header">
+      {weekdays.map((day, index) => (
+        <div key={day || index} className="header">
           <span
             className={`font-bold ${
               spreadPosition === 'right' && 'col-span-1 col-start-1 col-end-3'
             }`}
           >
-            {day.slice(0, 3)}
+            {day && day.slice ? day.slice(0, 3) : ''}
           </span>
-          {day.slice(3)}
+          {day && day.slice ? day.slice(3) : ''}
         </div>
       ))}
 
@@ -55,7 +56,7 @@ const Calendar = ({
       {spreadPosition === 'right' && (
         <div className="col-start-4 row-start-1 row-end-[-1] border-0 flex flex-col gap-6 pl-5 py-3">
           <div className="sidenotes">
-            <h1 className="text-heading-base">
+            <h1 className="text-heading-sm">
               Prior<span>ities</span>
             </h1>
 
@@ -63,7 +64,7 @@ const Calendar = ({
           </div>
 
           <div>
-            <h1 className="text-heading-base">
+            <h1 className="text-heading-sm">
               Monthly
               <div>Goals</div>
             </h1>
@@ -72,7 +73,7 @@ const Calendar = ({
           </div>
 
           <div>
-            <h1 className="text-heading-base">
+            <h1 className="text-heading-sm">
               Important<div>Events</div>
             </h1>
 
@@ -80,7 +81,7 @@ const Calendar = ({
           </div>
 
           <div>
-            <h1 className="text-heading-base">Appointments</h1>
+            <h1 className="text-heading-sm  ">Appointments</h1>
 
             <Underline count={3} />
           </div>

@@ -1,12 +1,12 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import Dashboard from './Dashboard';
 import PrintPreview from './PrintPreview';
+import Test from './Test';
 
 const Routers = () => {
   return (
     <Routes>
-      <Route path="/" element={<Dashboard />} />
+      <Route path="/" element={<Test />} />
       <Route path="/print-preview" element={<PrintPreview />} />
     </Routes>
   );

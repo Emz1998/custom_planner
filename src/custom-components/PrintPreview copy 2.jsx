@@ -14,7 +14,7 @@ const PrintPreview = () => {
 
   useEffect(() => {
     const script = document.createElement('script');
-    script.src = 'https://unpkg.com/pagedjs/dist/paged.polyfill.js';
+    script.src = '/paged.polyfill.js';
     script.async = true;
     document.body.appendChild(script);
 
