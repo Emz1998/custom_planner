@@ -2,13 +2,19 @@ import React from 'react';
 import Calendar from './Calendar';
 import { monthNames } from '../utils/calendarUtils';
 import { MonthlyNotes } from './Notes';
+import {
+  WeekHeader,
+  WeekGoals,
+  DayColumns,
+  WeeklyNotesSection,
+} from './WeeklyComponents';
 
 const Layouts = ({ config }) => {
   console.log('Layouts component loaded');
   return (
     <>
       {config.layout === 'monthly' && <MonthlyLayout config={config} />}
-      {/* {layout === 'weekly' && <WeeklyLayout config={weeklyLayoutProps} />} */}
+      {config.layout === 'weekly' && <WeeklyLayout config={config} />}
     </>
   );
 };
@@ -57,4 +63,50 @@ const MonthlyLayout = ({
   );
 };
 
-export { MonthlyLayout, Layouts, MonthlyNotes };
+const WeeklyLayout = ({
+  config: { spreadPosition, weekStart, weekEnd, startingWeekday, days },
+}) => {
+  console.log('WeeklyLayout component loaded');
+
+  return (
+    <div className="weekly-layout">
+      {/* Week Header */}
+      <WeekHeader
+        weekStart={weekStart}
+        weekEnd={weekEnd}
+        spreadPosition={spreadPosition}
+      />
+
+      {/* Main Content */}
+      <div className="week-content flex gap-4">
+        {/* Left Sidebar - Week Goals */}
+        {spreadPosition === 'left' && (
+          <div className="w-48 flex-shrink-0">
+            <WeekGoals />
+          </div>
+        )}
+
+        {/* Day Columns */}
+        <div className="flex-1">
+          <DayColumns
+            weekStart={weekStart}
+            days={days}
+            startingWeekday={startingWeekday}
+          />
+        </div>
+
+        {/* Right Sidebar - Week Goals (for right spread) */}
+        {spreadPosition === 'right' && (
+          <div className="w-48 flex-shrink-0">
+            <WeekGoals />
+          </div>
+        )}
+      </div>
+
+      {/* Notes Section */}
+      <WeeklyNotesSection />
+    </div>
+  );
+};
+
+export { MonthlyLayout, WeeklyLayout, Layouts, MonthlyNotes };

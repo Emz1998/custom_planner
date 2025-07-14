@@ -168,7 +168,7 @@ const PrintPreview = () => {
           window.location.reload(true);
         }
       }
-      
+
       // Ctrl+S to enable file reload
       if (event.ctrlKey && event.key === 's') {
         event.preventDefault();
