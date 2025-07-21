@@ -267,6 +267,127 @@ export const generatePlanner = (
   return generator(startMonth, startYear, startingWeekday);
 };
 
+// Get all weeks that belong to a specific month
+const getWeeksForMonth = (month, year, startingWeekday = 'monday') => {
+  const weeks = [];
+  const firstDay = new Date(year, month, 1);
+  const lastDay = new Date(year, month + 1, 0);
+  
+  // Find the start of the first week that contains days from this month
+  let currentWeek = new Date(firstDay);
+  const dayOffset = startingWeekday === 'monday' ? 1 : 0;
+  const firstDayOfWeek = currentWeek.getDay();
+  const daysToSubtract = firstDayOfWeek === 0 ? (dayOffset ? 6 : 0) : firstDayOfWeek - dayOffset;
+  currentWeek.setDate(currentWeek.getDate() - daysToSubtract);
+  
+  // Generate weeks until we pass the last day of the month
+  while (currentWeek <= lastDay || currentWeek.getMonth() === month) {
+    const weekEnd = new Date(currentWeek);
+    weekEnd.setDate(weekEnd.getDate() + 6);
+    
+    // Include week if it contains any days from the target month
+    const weekStartMonth = currentWeek.getMonth();
+    const weekEndMonth = weekEnd.getMonth();
+    if (weekStartMonth === month || weekEndMonth === month || 
+        (weekStartMonth < month && weekEndMonth > month)) {
+      weeks.push({
+        weekStart: new Date(currentWeek),
+        weekEnd: new Date(weekEnd),
+        pages: {
+          left: {
+            layout: 'weekly',
+            spreadPosition: 'left',
+            weekStart: new Date(currentWeek),
+            weekEnd: new Date(weekEnd),
+            startingWeekday,
+            days: generateWeekDatesArray(new Date(currentWeek)),
+          },
+          right: {
+            layout: 'weekly',
+            spreadPosition: 'right',
+            weekStart: new Date(currentWeek),
+            weekEnd: new Date(weekEnd),
+            startingWeekday,
+            days: generateWeekDatesArray(new Date(currentWeek)),
+          },
+        },
+      });
+    }
+    
+    currentWeek.setDate(currentWeek.getDate() + 7);
+    
+    // Break if we've moved past the month and the week doesn't contain any days from it
+    if (currentWeek.getMonth() > month && weekEnd.getMonth() > month) {
+      break;
+    }
+  }
+  
+  return weeks;
+};
+
+// Generate combined monthly + weekly planner
+export const generateMonthWithWeeklyPages = (
+  duration,
+  startMonth = 1,
+  startYear = new Date().getFullYear(),
+  startingWeekday = 'monday'
+) => {
+  const pages = [];
+  let currentMonth = startMonth - 1;
+  let currentYear = startYear;
+  
+  for (let i = 0; i < duration; i++) {
+    // Add month pages
+    pages.push({
+      type: 'month',
+      month: currentMonth,
+      year: currentYear,
+      monthName: monthNames[currentMonth],
+      pages: {
+        left: generateLayoutProps(
+          'monthly',
+          'left',
+          currentMonth,
+          currentYear,
+          startingWeekday
+        ),
+        right: generateLayoutProps(
+          'monthly',
+          'right',
+          currentMonth,
+          currentYear,
+          startingWeekday
+        ),
+      },
+    });
+    
+    // Add weekly pages for this month
+    const weeksForMonth = getWeeksForMonth(currentMonth, currentYear, startingWeekday);
+    weeksForMonth.forEach(week => {
+      pages.push({
+        type: 'week',
+        ...week
+      });
+    });
+    
+    currentMonth++;
+    if (currentMonth > 11) {
+      currentMonth = 0;
+      currentYear++;
+    }
+  }
+  
+  return {
+    type: 'monthly-weekly',
+    duration,
+    startMonth,
+    startYear,
+    startingWeekday,
+    pages,
+    totalPages: pages.length * 2,
+  };
+};
+
 export const plannerDefaults = {
   type: 'monthly',
   duration: 12,

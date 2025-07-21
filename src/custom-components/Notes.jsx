@@ -1,5 +1,6 @@
 import React from 'react';
-
+import Underline from './Underline';
+import Checkboxes from './Checkboxes';
 const Notes = ({ config }) => {
   console.log('Layouts component loaded');
   return (
@@ -24,4 +25,61 @@ const MonthlyNotes = ({ config: { header, headerSpan, subheader } }) => {
     </div>
   );
 };
-export { MonthlyNotes, Notes };
+
+const SideNotes = ({
+  title = 'Tasks',
+  variant = 'regular',
+  numOfTasks = 1,
+}) => {
+  const heading = title;
+  const [word1, word2] = heading.split(' ');
+
+  return (
+    <div className="w-full">
+      <h1 className="bg-black text-white py-2 px-3  text-heading-sm font-bold uppercase tracking-wider text-center">
+        {word1}
+        <span> {word2}</span>
+      </h1>
+
+      {(() => {
+        switch (variant) {
+          case 'regular':
+            return <Underline count={numOfTasks} />;
+          case 'checkbox':
+            return <Checkboxes count={numOfTasks} />;
+          default:
+            return <Underline count={numOfTasks} />;
+        }
+      })()}
+    </div>
+  );
+};
+
+const BottomNotes = ({
+  heading = 'School Notes',
+  subheading = 'What will make you happy this month?',
+  variant = 'primary',
+}) => (
+  <div
+    className={`w-full h-[150px] border border-black mt-auto ${
+      variant === 'secondary' ? 'flex' : ''
+    }`}
+  >
+    {/* Header */}
+    <div className="header">
+      <h1 className="bg-black text-white py-2 px-3 text-heading-sm ">
+        {heading}
+      </h1>
+      {variant === 'secondary' && (
+        <div className="p-2">
+          <p className="text-xs text-center">{subheading}</p>
+        </div>
+      )}
+    </div>
+
+    {/* Content */}
+    <div className="content flex-1"></div>
+  </div>
+);
+
+export { MonthlyNotes, Notes, SideNotes, BottomNotes };

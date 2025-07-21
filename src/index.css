@@ -17,6 +17,7 @@
   --border-color: #000;
 
   /* Border Widths */
+  --border-thin: 0.5px solid var(--border-color);
   --border-primary: 1px solid var(--border-color);
   --border-secondary: 1.5px solid var(--border-color);
   --border-tertiary: 2px solid var(--border-color);
@@ -24,7 +25,7 @@
   /* Header Sizes */
   --text-tiny: 5.5px;
   --text-xs: 6px;
-  --text-sm: 8px;
+  --text-sm: 7px;
   --text-base: 10px;
   --text-md: 12px;
   --text-lg: 14px;
@@ -44,7 +45,7 @@
   --tracking-tertiary: 0.15px;
 
   /* Spacing */
-  --spacing-primary: 10px;
+  --spacing-vertical: 20px;
   --spacing-secondary: 20px;
   --spacing-tertiary: 30px;
 }
@@ -74,6 +75,10 @@
 
 @utility border-b-* {
   border-bottom: --value(--border- *);
+}
+
+@utility border-y-* {
+  border-block: --value(--border- *);
 }
 
 @utility border-* {
@@ -205,9 +210,39 @@
     }
   }
 
-  /* Underline */
-  .underline {
-    @apply border-b-primary border-black mt-2;
+  /* Tables */
+  .table {
+    @apply w-full h-full border-collapse border-primary table-fixed;
+
+    .table-caption {
+      @apply text-heading-base font-bold text-center bg-black text-white p-2;
+    }
+
+    .table-header-group .table-cell {
+      @apply text-heading-sm;
+    }
+
+    .table-row {
+      @apply border-y-primary h-[30px];
+    }
+
+    .table-row-group .table-cell {
+      @apply text-subheading-sm text-start;
+    }
+
+    .table-cell {
+      @apply border-r-primary px-[10px] py-[10px];
+    }
+
+    .blank-cell {
+      @apply border-r-primary;
+    }
+  }
+
+  .add-ons {
+    .underlined {
+      @apply border-b-primary pb-2;
+    }
   }
 }
 
@@ -257,7 +292,7 @@
   }
 
   body {
-    @apply flex justify-center items-center border;
+    @apply flex justify-center items-center;
   }
 
   [data-id='root'] {

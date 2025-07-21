@@ -1,10 +1,10 @@
 import React from 'react';
-import Navigation from './custom-components/Navigation.jsx';
+import PrintPreview from './custom-components/PrintPreview.jsx';
 
 const App = () => {
   return (
     <>
-      <Navigation />
+      <PrintPreview />
     </>
   );
 };

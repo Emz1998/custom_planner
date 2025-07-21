@@ -1,13 +1,10 @@
 import React from 'react';
 import Calendar from './Calendar';
 import { monthNames } from '../utils/calendarUtils';
-import { MonthlyNotes } from './Notes';
-import {
-  WeekHeader,
-  WeekGoals,
-  DayColumns,
-  WeeklyNotesSection,
-} from './WeeklyComponents';
+import { MonthlyNotes, SideNotes, BottomNotes } from './Notes';
+import { WeekHeader, DayColumns } from './WeeklyComponents';
+import Table from './Tables';
+import Underline from './Underline';
 
 const Layouts = ({ config }) => {
   console.log('Layouts component loaded');
@@ -15,6 +12,7 @@ const Layouts = ({ config }) => {
     <>
       {config.layout === 'monthly' && <MonthlyLayout config={config} />}
       {config.layout === 'weekly' && <WeeklyLayout config={config} />}
+      {config.layout === 'monthly-budget' && <MonthlyBudget />}
     </>
   );
 };
@@ -69,44 +67,123 @@ const WeeklyLayout = ({
   console.log('WeeklyLayout component loaded');
 
   return (
-    <div className="weekly-layout">
-      {/* Week Header */}
-      <WeekHeader
-        weekStart={weekStart}
-        weekEnd={weekEnd}
-        spreadPosition={spreadPosition}
-      />
-
+    <div className="weekly flex flex-col gap-5 h-full w-full">
       {/* Main Content */}
-      <div className="week-content flex gap-4">
-        {/* Left Sidebar - Week Goals */}
-        {spreadPosition === 'left' && (
-          <div className="w-48 flex-shrink-0">
-            <WeekGoals />
-          </div>
-        )}
+      <div className="week-content flex h-full">
+        {/* Left Page: Week Goals + First 3 days */}
+        {spreadPosition === 'left' ? (
+          <>
+            <div className="flex flex-col gap-vertical w-full pr-5">
+              <WeekHeader
+                weekStart={weekStart}
+                weekEnd={weekEnd}
+                spreadPosition={spreadPosition}
+              />
 
-        {/* Day Columns */}
-        <div className="flex-1">
+              <SideNotes title="Main Goal" variant="regular" numOfTasks={1} />
+              <SideNotes title="Priorities" variant="regular" numOfTasks={4} />
+              <SideNotes title="To Do List" variant="checkbox" numOfTasks={8} />
+              <SideNotes
+                title="Upcoming Exams"
+                variant="regular"
+                numOfTasks={4}
+              />
+            </div>
+
+            <DayColumns
+              weekStart={weekStart}
+              days={days.slice(0, 3)}
+              startingWeekday={startingWeekday}
+              dayIndices={[0, 1, 2]}
+            />
+          </>
+        ) : (
+          /* Right Page: Last 4 days only */
+
           <DayColumns
             weekStart={weekStart}
-            days={days}
+            days={days.slice(3, 7)}
             startingWeekday={startingWeekday}
+            dayIndices={[3, 4, 5, 6]}
           />
-        </div>
-
-        {/* Right Sidebar - Week Goals (for right spread) */}
-        {spreadPosition === 'right' && (
-          <div className="w-48 flex-shrink-0">
-            <WeekGoals />
-          </div>
         )}
       </div>
 
       {/* Notes Section */}
-      <WeeklyNotesSection />
+
+      <BottomNotes heading="School Notes" variant="primary" />
     </div>
   );
 };
 
-export { MonthlyLayout, WeeklyLayout, Layouts, MonthlyNotes };
+const MonthlyBudget = () => {
+  const incomeData = {
+    tableBody: [
+      ['Total Income:'],
+      ['Source Of Income 1', 'Source Of Income 2', 'Source Of Income 3'],
+      ['Other Source of Income'],
+    ],
+  };
+
+  const expenseData = {
+    columnsHeader: ['Fixed Expenses', 'Variable Expenses'],
+    tableBody: [
+      ['Rent/Mortgage', 'Groceries'],
+      ['Utilities (Electricity, Water, Etc.)', 'Transportation'],
+      ['Insurance', 'Entertainment'],
+      ['Loan Payments', 'Dining Out'],
+    ],
+
+    blankRows: 3,
+  };
+
+  const savingsData = {
+    variant: '2d',
+    columnsHeader: 'Savings',
+    tableBody: [
+      'Personal Savings',
+      'Emergency Fund',
+      'Retirement',
+      'Investments',
+    ],
+
+    blankRows: 3,
+  };
+
+  return (
+    <div className="add-ons monthly-budget flex flex-col gap-6  ">
+      <div className="flex flex-col gap-1">
+        <h1 className="text-heading-xl text-start  underlined">
+          Monthly <span>budget</span>
+        </h1>
+      </div>
+
+      <div className=" h-full">
+        <Table tableHeader="Income" rowsData={incomeData} />
+      </div>
+
+      <div className="h-full">
+        <Table tableHeader="Expenses" rowsData={expenseData} />
+      </div>
+
+      <div className="flex gap-5 flex-1">
+        <Table tableHeader="Savings" rowsData={savingsData} />
+        <div className="flex flex-col gap-10 justify-center p-6">
+          <h1 className="text-heading-base text-start underlined">Summary</h1>
+
+          <div className="grid grid-cols-2 gap-4 w-full">
+            <h1 className="text-subheading-sm text-start">Total Income</h1>
+            <h1 className="text-subheading-sm text-start">Total Expenses</h1>
+
+            <h1 className="text-subheading-sm text-start">Net Savings</h1>
+            <h1 className="text-subheading-sm text-start">Remaining Balance</h1>
+          </div>
+
+          <h1 className="text-heading-base text-start underlined">Notes</h1>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export { MonthlyLayout, WeeklyLayout, Layouts, MonthlyNotes, MonthlyBudget };
