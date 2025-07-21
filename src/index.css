@@ -275,10 +275,6 @@
     row-gap: 1rem;
   }
 
-  .pagedjs_page {
-    border: 1px solid black;
-  }
-
   /* :where(.pagedjs_pagebox) > :not(:last-child) {
     @apply bg-neutral-400;
   } */
@@ -297,5 +293,11 @@
 
   [data-id='root'] {
     @apply h-full;
+  }
+
+  @media print {
+    .pagedjs_page {
+      border: none;
+    }
   }
 }
