@@ -43,14 +43,16 @@ const Calendar = ({
 
       {/* Calendar Days */}
       {calendarDays.map((dayObj, index) => (
-        <h1
-          key={index}
-          className={`days ${
-            dayObj && isToday(dayObj, month, year) ? 'today' : ''
-          } ${dayObj && dayObj.isOtherMonth ? 'other-month' : ''}`}
-        >
-          {dayObj ? dayObj.day : ''}
-        </h1>
+        <div className="border-b-thin">
+          <h1
+            key={index}
+            className={`days h-full ${
+              dayObj && isToday(dayObj, month, year) ? 'today' : ''
+            } ${dayObj && dayObj.isOtherMonth ? 'other-month' : ''}`}
+          >
+            {dayObj ? dayObj.day : ''}
+          </h1>
+        </div>
       ))}
 
       {spreadPosition === 'right' && (

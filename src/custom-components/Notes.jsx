@@ -61,7 +61,7 @@ const BottomNotes = ({
   variant = 'primary',
 }) => (
   <div
-    className={`w-full h-[150px] border border-black mt-auto ${
+    className={`w-full h-full border-x-thin mt-auto ${
       variant === 'secondary' ? 'flex' : ''
     }`}
   >
@@ -78,7 +78,7 @@ const BottomNotes = ({
     </div>
 
     {/* Content */}
-    <div className="content flex-1"></div>
+    <div className="flex-1"></div>
   </div>
 );
 

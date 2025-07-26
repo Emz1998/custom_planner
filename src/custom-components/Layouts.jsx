@@ -48,7 +48,7 @@ const MonthlyLayout = ({
       </div>
 
       {/* Footer */}
-      <div className="footer h-30">
+      <div className="footer h-30 border-x-thin">
         <MonthlyNotes
           config={{
             header: 'Happiness',
@@ -110,8 +110,9 @@ const WeeklyLayout = ({
       </div>
 
       {/* Notes Section */}
-
-      <BottomNotes heading="School Notes" variant="primary" />
+      <div className="border-y-thin h-full">
+        <BottomNotes heading="School Notes" variant="primary" />
+      </div>
     </div>
   );
 };
@@ -153,21 +154,24 @@ const MonthlyBudget = () => {
   return (
     <div className="add-ons monthly-budget flex flex-col gap-6  ">
       <div className="flex flex-col gap-1">
-        <h1 className="text-heading-xl text-start  underlined">
+        <h1 className="text-heading-xl text-start underlined">
           Monthly <span>budget</span>
         </h1>
       </div>
 
-      <div className=" h-full">
+      <div className=" h-full border-x-primary">
         <Table tableHeader="Income" rowsData={incomeData} />
       </div>
 
-      <div className="h-full">
+      <div className="h-full border-x-primary">
         <Table tableHeader="Expenses" rowsData={expenseData} />
       </div>
 
       <div className="flex gap-5 flex-1">
-        <Table tableHeader="Savings" rowsData={savingsData} />
+        <div className="w-[50%] border-x-primary">
+          <Table tableHeader="Savings" rowsData={savingsData} />
+        </div>
+
         <div className="flex flex-col gap-10 justify-center p-6">
           <h1 className="text-heading-base text-start underlined">Summary</h1>
 

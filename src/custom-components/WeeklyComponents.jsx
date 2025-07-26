@@ -33,7 +33,7 @@ const DayColumn = ({ day, date, isWeekend }) => {
   const hours = Array.from({ length: 17 }, (_, i) => i + 7); // 7 AM to 11 PM
 
   return (
-    <div className="day-column h-full w-full flex flex-col">
+    <div className="day-column h-full w-full flex flex-col border-y-thin ">
       <div
         className={`day-header bg-black text-white px-2 py-3 flex gap-2 justify-center items-center`}
       >
@@ -84,9 +84,9 @@ export const DayColumns = ({
     <>
       {indicesToShow.map((dayIndex, i) => (
         <div
-          className={`w-full border-r-primary border-y-primary ${
-            i === 0 ? 'border-l-primary' : ''
-          } ${i === indicesToShow.length - 1 ? 'border-r-primary' : ''}`}
+          className={`w-full border-r-thin ${i === 0 ? 'border-l-thin' : ''} ${
+            i === indicesToShow.length - 1 ? 'border-r-thin' : ''
+          }`}
         >
           <DayColumn
             key={allDayNames[dayIndex]}

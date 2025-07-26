@@ -17,10 +17,10 @@
   --border-color: #000;
 
   /* Border Widths */
-  /* --border-thin: 0.5px solid var(--border-color); */
-  /* --border-primary: 1px solid var(--border-color); */
-  /* --border-secondary: 1.5px solid var(--border-color);
-  --border-tertiary: 2px solid var(--border-color); */
+  --border-thin: 0.5px solid var(--border-color);
+  --border-primary: 1px solid var(--border-color);
+  --border-secondary: 1.5px solid var(--border-color);
+  --border-tertiary: 2px solid var(--border-color);
 
   /* Header Sizes */
   --text-tiny: 5.5px;
@@ -57,11 +57,11 @@
 
 @custom-variant paragraph (.paragraph &);
 
-/* ----------------------------Border Utility Classes---------------------------- */
+/* ----------------------------Utility Classes---------------------------- */
 
 /* Border Utilities */
 
-/* @utility border-l-* {
+@utility border-l-* {
   border-left: --value(--border- *);
 }
 
@@ -83,126 +83,7 @@
 
 @utility border-* {
   border: --value(--border- *);
-} */
-
-@utility border-before {
-  content: '';
-  position: absolute;
-  z-index: 100000;
-  background-color: black;
-  color: black;
 }
-
-@utility border-after {
-  content: '';
-  position: absolute;
-  z-index: 100000;
-  background-color: black;
-  color: black;
-}
-
-@utility border-l {
-  @apply border-before;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 1px;
-  transform: scaleX(0.5);
-  transform-origin: left;
-}
-
-@utility border-r {
-  @apply border-after;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  width: 1px;
-  transform: scaleX(0.5);
-  transform-origin: right;
-}
-
-@utility border-t {
-  @apply border-before;
-  left: 0;
-  top: 0;
-  right: 0;
-  height: 1px;
-  transform: scaleY(0.5);
-  transform-origin: top;
-}
-
-@utility border-b {
-  @apply border-after;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  height: 1px;
-  transform: scaleY(0.5);
-  transform-origin: bottom;
-}
-
-/* Border Thin */
-
-@utility border-l-thin {
-  @apply relative before:border-l;
-}
-
-@utility border-r-thin {
-  @apply relative after:border-r;
-}
-
-@utility border-t-thin {
-  @apply relative before:border-t;
-}
-
-@utility border-b-thin {
-  @apply relative after:border-b;
-}
-
-@utility border-y-thin {
-  @apply border-t-thin border-b-thin;
-}
-
-@utility border-x-thin {
-  @apply border-l-thin border-r-thin;
-}
-
-@utility border-thin {
-  @apply border-y-thin border-x-thin;
-}
-
-/* Border Primary */
-
-@utility border-l-primary {
-  @apply relative before:border-l before:w-[1.5px];
-}
-
-@utility border-r-primary {
-  @apply relative after:border-r after:w-[1.5px];
-}
-
-@utility border-t-primary {
-  @apply relative before:border-t before:h-[1.5px];
-}
-
-@utility border-b-primary {
-  @apply relative after:border-b after:h-[1.5px];
-}
-
-@utility border-y-primary {
-  @apply border-t-primary border-b-primary;
-}
-
-@utility border-x-primary {
-  @apply border-l-primary border-r-primary;
-}
-
-@utility border-primary {
-  @apply border-y-primary border-x-primary;
-}
-
-/* ----------------------------Text Utilities---------------------------- */
-
 @utility text-heading {
   @apply text-xl font-black uppercase tracking-primary text-center;
 }
@@ -269,15 +150,15 @@
 @layer components {
   /* Calendar */
   .calendar {
-    @apply grid grid-rows-[auto_1fr_1fr_1fr_1fr_1fr] grid-cols-4 border-l-thin w-full h-full;
+    @apply grid grid-rows-[auto_1fr_1fr_1fr_1fr_1fr] grid-cols-4 border-l-primary w-full h-full;
     .header {
-      @apply text-heading-sm text-center font-normal uppercase text-white border-r-thin bg-black  px-2 py-2 h-[27px];
+      @apply text-heading-sm text-center font-normal uppercase border-y-primary border-r-primary border-black text-white bg-black  px-2 py-2 h-[27px];
     }
     .header > * {
       @apply font-bold;
     }
     .days {
-      @apply text-end text-[9px] p-2 border-r-thin  font-normal;
+      @apply text-end text-[9px] p-2 border-r-primary border-b-primary border-black font-normal;
     }
     .sidenotes span {
       @apply font-normal;
@@ -297,7 +178,7 @@
 
   /* Notes */
   .notes.monthly {
-    @apply w-full border-y-thin flex h-full;
+    @apply w-full border-primary flex h-full;
     .content {
       @apply w-[40%];
       .header {
@@ -330,31 +211,31 @@
   }
 
   /* Tables */
-  .custom-table {
-    @apply w-full h-full border-y-primary;
+  .table {
+    @apply w-full h-full border-collapse border-primary table-fixed;
 
-    .custom-table-caption {
+    .table-caption {
       @apply text-heading-base font-bold text-center bg-black text-white p-2;
     }
 
-    .custom-table-header-group .custom-table-cell {
+    .table-header-group .table-cell {
       @apply text-heading-sm;
     }
 
-    .custom-table-row {
-      @apply border-b-thin h-[30px] flex;
+    .table-row {
+      @apply border-y-primary h-[30px];
     }
 
-    .custom-table-row-group .custom-table-cell {
+    .table-row-group .table-cell {
       @apply text-subheading-sm text-start;
     }
 
-    .custom-table-cell {
-      @apply not-last:border-r-thin px-[10px] py-[10px] w-[100%];
+    .table-cell {
+      @apply border-r-primary px-[10px] py-[10px];
     }
 
     .blank-cell {
-      @apply not-last:border-r-thin;
+      @apply border-r-primary;
     }
   }
 
